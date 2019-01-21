@@ -9,7 +9,6 @@ import Cart from "./components/Cart";
 import Modal from "./components/Modal";
 
 class App extends Component {
-
   render() {
     return (
       <React.Fragment>
