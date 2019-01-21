@@ -1,4 +1,4 @@
-:root{
+:root {
   --mainBlue: #2a2a72;
   --lightBlue: #009ffd;
   --mainWhite: #eaf6ff;
@@ -6,23 +6,23 @@
   --mainYellow: #ffa400;
 }
 
-body{
-  font-family: 'Oswald', sans-serif !important;
+body {
+  font-family: "Oswald", sans-serif !important;
   background: var(--mainWhite) !important;
   color: var(--mainDark) !important;
 }
 
-.text-title{
-  font-family: 'Roboto', sans-serif;
+.text-title {
+  font-family: "Roboto", sans-serif;
   letter-spacing: 0.3rem;
   text-transform: uppercase;
 }
 
-.text-blue{
+.text-blue {
   color: var(--mainBlue);
 }
 
-.text-bright{
+.text-bright {
   color: var(--lightBlue);
 }
 
