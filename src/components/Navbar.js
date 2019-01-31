@@ -4,7 +4,19 @@ import logo from "../logo.svg";
 import { ButtonContainer } from "./Button";
 import styled from "styled-components";
 
+import {ProductConsumer} from './../context';
+
 export default class Navbar extends Component {
+	constructor (props) {
+		super(props);
+
+		console.log(this);
+	}
+
+	onSearchChange(event) {
+		// console.log(event.currentTarget.value);
+	}
+
   render() {
     return (
       <NavWrapper className="navbar navbar-expand-sm navbar px-sm-5">
@@ -17,6 +29,18 @@ export default class Navbar extends Component {
               products
             </Link>
           </li>
+					<li className="nav-item ml-5">
+						<ProductConsumer>
+							{value => {
+								return (
+									<div className="input-group">
+										<input onChange={(element) => {value.searchProduct(element)}} type="text" className="form-control" placeholder="Search" aria-label="Search" />
+									</div>
+								);
+							}}
+
+						</ProductConsumer>
+					</li>
         </ul>
         <Link to="/cart" className="ml-auto">
           <ButtonContainer>

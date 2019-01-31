@@ -3,19 +3,53 @@ import { storeProducts, detailProduct } from "./data";
 const ProductContext = React.createContext();
 
 class ProductProvider extends Component {
-  state = {
-    products: [],
-    detailProduct: detailProduct,
-    cart: [],
-    modalOpen: false,
-    modalProduct: detailProduct,
-    cartSubTotal: 0,
-    cartTax: 0,
-    cartTotal: 0
-  };
-  componentDidMount() {
+	constructor (props) {
+		super(props);
+
+		this.state = {
+			products: [],
+			productsAll: [],
+			detailProduct: detailProduct,
+			cart: [],
+			modalOpen: false,
+			modalProduct: detailProduct,
+			cartSubTotal: 0,
+			cartTax: 0,
+			cartTotal: 0
+		};
+	}
+
+	componentDidMount() {
     this.setProducts();
   }
+
+  hello() {
+		alert("HELLO!");
+	}
+
+	filterBySearch = (searchText) => {
+		console.log(this.state);
+
+		searchText = searchText.currentTarget.value;
+
+		let searchedProducts = [];
+
+		this.setState({products: this.state.productsAll}, () => {
+			searchedProducts = this.state.products;
+
+			searchedProducts = searchedProducts.filter((element) => {
+				let elTitle = element.title.toLowerCase();
+				let searchTitle = searchText.toLowerCase();
+
+				return elTitle.includes(searchTitle);
+			});
+
+			console.log(searchedProducts);
+			this.setState({
+				products: searchedProducts
+			});
+		});
+	};
 
   setProducts = () => {
     let products = [];
@@ -23,9 +57,10 @@ class ProductProvider extends Component {
       const singleItem = { ...item };
       products = [...products, singleItem];
     });
-    this.setState(() => {
-      return { products };
-    }, this.checkCartItems);
+    this.setState({
+			products: products,
+			productsAll: products
+		});
   };
 
   getItem = id => {
@@ -175,7 +210,9 @@ class ProductProvider extends Component {
           increment: this.increment,
           decrement: this.decrement,
           removeItem: this.removeItem,
-          clearCart: this.clearCart
+          clearCart: this.clearCart,
+					hello: this.hello,
+					searchProduct: this.filterBySearch
         }}
       >
         {this.props.children}
