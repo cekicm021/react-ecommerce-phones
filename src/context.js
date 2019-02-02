@@ -23,8 +23,37 @@ class ProductProvider extends Component {
     this.setProducts();
   }
 
-  hello() {
-		alert("HELLO!");
+	filterByCompany = (id, selected) => {
+		// console.log(this.state.productsAll);
+		// console.log(this.state.products);
+
+		let allProducts = JSON.parse(JSON.stringify(this.state.productsAll));
+		let currentProducts = JSON.parse(JSON.stringify(this.state.products));
+
+		// console.log(currentProducts[0].company === "GOOGLE");
+		console.log(currentProducts);
+
+		let indexesToRemove = [];
+
+		if (!selected) {
+			for (let i = currentProducts.length - 1; i >= 0; i--) {
+				if ( currentProducts[i].company.toLowerCase() === id.toLowerCase() ) {
+					currentProducts.splice(i, 1);
+				}
+			}
+		} else {
+			for (let product of allProducts) {
+				if (product.company.toLowerCase() === id.toLowerCase()) {
+					currentProducts.push(product);
+				}
+			}
+		}
+		this.sortProducts(currentProducts);
+		this.setState({products: currentProducts});
+	};
+
+	sortProducts(array) {
+		return array.sort((a, b) => (a.company.toLowerCase() > b.company.toLowerCase()) ? 1 : ((b.company.toLowerCase() > a.company.toLowerCase()) ? -1 : 0));
 	}
 
 	filterBySearch = (searchText) => {
@@ -53,14 +82,18 @@ class ProductProvider extends Component {
 
   setProducts = () => {
     let products = [];
+
     storeProducts.forEach(item => {
       const singleItem = { ...item };
       products = [...products, singleItem];
     });
+
+    products = this.sortProducts(products);
+
     this.setState({
 			products: products,
 			productsAll: products
-		});
+		}, () => {console.log(this.state.products)});
   };
 
   getItem = id => {
@@ -211,7 +244,7 @@ class ProductProvider extends Component {
           decrement: this.decrement,
           removeItem: this.removeItem,
           clearCart: this.clearCart,
-					hello: this.hello,
+					filterByCompany: this.filterByCompany,
 					searchProduct: this.filterBySearch
         }}
       >
