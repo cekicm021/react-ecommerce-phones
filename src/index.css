@@ -12,3 +12,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+div.search {
+  position: relative;
+}
+
+.search-x {
+  color: black;
+  font-size: 20px;
+  position: absolute;
+  right: 10px;
+  font-weight: bold;
+  top: 3px;
+  cursor: pointer;
+  z-index: 10;
+}
