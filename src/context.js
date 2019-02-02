@@ -9,6 +9,7 @@ class ProductProvider extends Component {
 		this.state = {
 			products: [],
 			productsAll: [],
+			productsChecked: [],
 			detailProduct: detailProduct,
 			cart: [],
 			modalOpen: false,
@@ -49,12 +50,16 @@ class ProductProvider extends Component {
 			}
 		}
 		this.sortProducts(currentProducts);
-		this.setState({products: currentProducts});
+		this.setState({products: currentProducts, productsChecked: currentProducts});
 	};
 
 	sortProducts(array) {
 		return array.sort((a, b) => (a.company.toLowerCase() > b.company.toLowerCase()) ? 1 : ((b.company.toLowerCase() > a.company.toLowerCase()) ? -1 : 0));
 	}
+
+	clearSearch = () => {
+		this.setState({products: this.state.productsChecked});
+	};
 
 	filterBySearch = (searchText) => {
 		console.log(this.state);
@@ -63,8 +68,8 @@ class ProductProvider extends Component {
 
 		let searchedProducts = [];
 
-		this.setState({products: this.state.productsAll}, () => {
-			searchedProducts = this.state.products;
+		this.setState({products: this.state.productsChecked}, () => {
+			searchedProducts = JSON.parse(JSON.stringify(this.state.products));
 
 			searchedProducts = searchedProducts.filter((element) => {
 				let elTitle = element.title.toLowerCase();
@@ -92,7 +97,8 @@ class ProductProvider extends Component {
 
     this.setState({
 			products: products,
-			productsAll: products
+			productsAll: products,
+			productsChecked: products
 		}, () => {console.log(this.state.products)});
   };
 
@@ -245,7 +251,8 @@ class ProductProvider extends Component {
           removeItem: this.removeItem,
           clearCart: this.clearCart,
 					filterByCompany: this.filterByCompany,
-					searchProduct: this.filterBySearch
+					searchProduct: this.filterBySearch,
+					clearSearch: this.clearSearch
         }}
       >
         {this.props.children}

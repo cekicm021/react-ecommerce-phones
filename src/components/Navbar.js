@@ -10,7 +10,11 @@ export default class Navbar extends Component {
 	constructor (props) {
 		super(props);
 
-		console.log(this);
+		this.state = {
+			clearSearch: false
+		}
+
+		this.search_ref = React.createRef();
 	}
 
 	onSearchChange(event) {
@@ -33,8 +37,22 @@ export default class Navbar extends Component {
 						<ProductConsumer>
 							{value => {
 								return (
-									<div className="input-group">
-										<input onChange={(element) => {value.searchProduct(element)}} type="text" className="form-control" placeholder="Search" aria-label="Search" />
+									<div className="input-group search">
+										<input ref={(el_ref) => this.search_ref = el_ref} onKeyDown={(element) => {
+											if(element.key === 'Enter'){
+												if (element.currentTarget.value !== "") {
+													this.setState({clearSearch: true});
+												} else {
+													this.setState({clearSearch: false});
+												}
+												value.searchProduct(element)
+											}
+										}} type="text" className="form-control" placeholder="Search" aria-label="Search" />
+										{this.state.clearSearch ? <p onClick={() => {
+											this.search_ref.value = "";
+											this.setState({clearSearch: false});
+											value.clearSearch()
+										}} className="search-x">X</p> : null}
 									</div>
 								);
 							}}
